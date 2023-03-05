@@ -19,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get("/", [BlogController::class, "index"]);
+Route::view("/create", "blog.create");
+Route::get("/{blog}/edit", [BlogController::class, "edit"]);
+Route::post("/", [BlogController::class, "store"]);
+
 Route::get("/{id}", [BlogController::class, "show"]);
 Route::delete("/{id}", [BlogController::class, "destroy"]);
 Route::patch("/{id}", [BlogController::class, "update"]);
-Route::post("/", [BlogController::class, "store"]);

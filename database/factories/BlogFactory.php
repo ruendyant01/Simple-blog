@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,8 @@ class BlogFactory extends Factory
         return [
             //
             "title" => fake()->name(),
-            "body" => fake()->text()
+            "body" => fake()->text(),
+            "image" => UploadedFile::fake()->image("photo.png", 50,50)->size(200)
         ];
     }
 }
