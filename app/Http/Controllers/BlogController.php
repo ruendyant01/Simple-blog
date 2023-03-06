@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware("auth")->only("store", "destroy", "update", "create","edit", "show");
+        $this->middleware("auth")->except("index");
     }
     //
     public function index() {
@@ -30,11 +30,11 @@ class BlogController extends Controller
         return redirect("/");
     }
 
-    public function store(Request $req) 
+    public function store(BlogRequest $req) 
     {
         extract($req->all());
-        $blog = Blog::create(["title" => $title, "body" => $body, "image" => $image->name, "user_id"=>$user_id]);
-        $blog->uploadImage($req->image);
+        $blog = auth()->user()->blogs()->create(["title" => $title, "body" => $body, "image" => $image->name])
+                ->uploadImage($req->image);
         return response($blog, Response::HTTP_CREATED);
     }
 

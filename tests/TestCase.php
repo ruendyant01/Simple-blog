@@ -26,6 +26,5 @@ abstract class TestCase extends BaseTestCase
     protected function fakeAuthUser() {
         $user = $this->createUser();
         $this->actingAs($user);
-        return $user;
     }
 }
