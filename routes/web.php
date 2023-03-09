@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,7 @@ Route::view("/create", "blog.create");
 Route::get("/{blog}/edit", [BlogController::class, "edit"]);
 Route::post("/", [BlogController::class, "store"]);
 
+Route::resource("/tag", TagController::class);
 Route::get("/{id}", [BlogController::class, "show"]);
 Route::delete("/{id}", [BlogController::class, "destroy"]);
 Route::patch("/{id}", [BlogController::class, "update"]);

@@ -26,6 +26,8 @@ class BlogController extends Controller
     }
 
     public function destroy(Blog $id) {
+        $id->tags->each->delete();
+        $id->tags()->detach();
         $id->delete();
         return redirect("/");
     }
@@ -33,13 +35,15 @@ class BlogController extends Controller
     public function store(BlogRequest $req) 
     {
         extract($req->all());
-        $blog = auth()->user()->blogs()->create(["title" => $title, "body" => $body, "image" => $image->name])
-                ->uploadImage($req->image);
+        $blog = auth()->user()->blogs()->create(["title" => $title, "body" => $body, "image" => $image->name]);
+        $blog->uploadImage($req->image);
+        $blog->tags()->attach($req->tag_ids);
         return response($blog, Response::HTTP_CREATED);
     }
 
     public function update(Request $req, Blog $id) {
-        $id->update($req->all());
+        $id->update($req->except("tag_ids"));
+        $id->tags()->sync($req->tag_ids);
         return redirect("/");
     }
 

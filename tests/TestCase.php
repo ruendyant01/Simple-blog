@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Blog;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -26,5 +27,9 @@ abstract class TestCase extends BaseTestCase
     protected function fakeAuthUser() {
         $user = $this->createUser();
         $this->actingAs($user);
+    }
+
+    protected function createTag($data = [], $num = null) {
+        return Tag::factory($num)->create($data);
     }
 }

@@ -19,7 +19,7 @@ class PublishTest extends TestCase
         $user = $this->fakeAuthUser();
         $blog = $this->createBlog();
 
-        $resp = $this->patch("/".$blog->id, ["published_at" => now()]);
+        $resp = $this->patch("/".$blog->slug, ["published_at" => now()]);
 
         $resp->assertStatus(302);
         $this->assertNotNull($blog->fresh()->published_at);
@@ -29,7 +29,7 @@ class PublishTest extends TestCase
         $user = $this->fakeAuthUser();
         $blog = $this->createBlog(["published_at" => now()]);
 
-        $resp = $this->patch("/".$blog->id, ["published_at" => null]);
+        $resp = $this->patch("/".$blog->slug, ["published_at" => null]);
 
         // dd(Blog::latest()->first());
         $resp->assertStatus(302);
