@@ -23,7 +23,7 @@ class BlogTest extends TestCase
 
         $blog->uploadImage($image);
 
-        Storage::assertExists($image->name);
+        Storage::disk("public")->assertExists($image->name);
     }
 
     public function test_user_and_blog_relationship() {

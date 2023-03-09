@@ -27,7 +27,8 @@ class BlogRequest extends FormRequest
             //
             "title" => "required",
             "body" => "required",
-            "image" => "required|image",
+            "tag_ids" => "required",
+            "image" => "required|mimes:jpg,png,jpeg",
         ];
     }
 }

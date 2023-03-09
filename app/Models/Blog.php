@@ -29,7 +29,7 @@ class Blog extends Model
     }
 
     public function uploadImage($image) {
-        Storage::put($image->name, file_get_contents($image));
+        Storage::disk("public")->put($image->getClientOriginalName(), $image->get());
     }
 
     public function user() {

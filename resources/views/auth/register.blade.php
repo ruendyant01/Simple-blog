@@ -5,19 +5,19 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Create New Blog</div>
+                <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('blog.create')}}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="title" class="col-md-4 col-form-label text-md-end">Title</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="text" type="title" class="form-control @error('title') is-invalid @enderror" name="title" autocomplete="title">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-                                @error('title')
+                                @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -26,12 +26,12 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="body" class="col-md-4 col-form-label text-md-end">Text Body</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
                             <div class="col-md-6">
-                                <textarea id="body" class="form-control @error('body') is-invalid @enderror" name="body" autocomplete="body"></textarea>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
-                                @error('body')
+                                @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -40,12 +40,12 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="tag" class="col-md-4 col-form-label text-md-end">Tags</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input type="text" id="tag" class="form-control @error('tag_ids') is-invalid @enderror" name="tag_ids" autocomplete="tag">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
-                                @error('tag_ids')
+                                @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -54,23 +54,17 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="image" class="col-md-4 col-form-label text-md-end">Image</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input type="file" id="image" class="form-control @error('image') is-invalid @enderror" name="image" autocomplete="image">
-
-                                @error('image')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
 
                         <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Add
+                                    {{ __('Register') }}
                                 </button>
                             </div>
                         </div>

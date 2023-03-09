@@ -71,17 +71,18 @@ class BlogTest extends TestCase
 
     public function test_user_create_blog() {
         $data = Blog::factory()->raw();
-        $tag = $this->createTag([],2);
-        $blog = array_merge(["user_id" => auth()->user()->id, "tag_ids" => $tag->pluck("id")->toArray()], $data);
+        $tag = Tag::factory()->raw();
+        $blog = array_merge(["user_id" => auth()->user()->id, "tag_ids" => $tag['name']], $data);
         Storage::fake();
 
         $resp = $this->post("/", $blog);
 
-        $resp->assertCreated();
+        $resp->assertStatus(302);
+        $resp->assertRedirect(route("home"));
         $this->assertDatabaseHas("blogs", ["title" => $blog['title'], "body" => $blog['body'], "image" => $blog['image']->name, "user_id" => auth()->user()->id, "slug" => Str::slug($blog['title'])]);
-        $this->assertDatabaseHas("blog_tag", ['tag_id' => $tag->first()->id]);
-        $this->assertDatabaseHas("blog_tag", ['tag_id' => $tag[1]->id]);
-        Storage::assertExists($blog['image']->name);
+        $this->assertDatabaseHas("blog_tag", ['tag_id' => Tag::all()->first()->id]);
+        // $this->assertDatabaseHas("blog_tag", ['tag_id' => $tag[1]->id]);
+        Storage::disk("public")->assertExists($blog['image']->name);
     }
 
     public function test_user_update_blog() {

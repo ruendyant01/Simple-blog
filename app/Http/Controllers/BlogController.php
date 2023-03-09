@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -35,10 +36,11 @@ class BlogController extends Controller
     public function store(BlogRequest $req) 
     {
         extract($req->all());
-        $blog = auth()->user()->blogs()->create(["title" => $title, "body" => $body, "image" => $image->name]);
-        $blog->uploadImage($req->image);
-        $blog->tags()->attach($req->tag_ids);
-        return response($blog, Response::HTTP_CREATED);
+        $blog = auth()->user()->blogs()->create(["title" => $title, "body" => $body, "image" => $image->getClientOriginalName()]);
+        if(isset($image)) $blog->uploadImage($image);
+        $tag = Tag::create(["name" => $tag_ids]);
+        $blog->tags()->attach($tag->id);
+        return redirect(route("home"));
     }
 
     public function update(Request $req, Blog $id) {
