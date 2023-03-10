@@ -14,6 +14,12 @@ class TagTest extends TestCase
      *
      * @return void
      */
+
+     public function setup() : void {
+        parent::setup();
+        $this->fakeAuthUser();
+     }
+
     public function test_user_can_create_tag()
     {
         $tag = Tag::factory()->raw();
@@ -52,7 +58,7 @@ class TagTest extends TestCase
         $res = $this->get(route("tag.create"));
 
         $res->assertOk();
-        $res->assertSee("Create New Blog");
+        $res->assertSee("Create New Tag");
     }
 
     public function test_user_edit_from_tag() {
