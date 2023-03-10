@@ -39,7 +39,7 @@ class BlogController extends Controller
         extract($req->all());
         $blog = auth()->user()->blogs()->create(["title" => $title, "body" => $body, "image" => $image->getClientOriginalName()]);
         if(isset($image)) $blog->uploadImage($image);
-        $tag = Tag::create(["name" => $tag_ids]);
+        $tag = Tag::firstOrCreate(["name" => $tag_ids],["name" => $tag_ids]);
         $blog->tags()->attach($tag->id);
         return redirect(route("home"));
     }
@@ -53,7 +53,7 @@ class BlogController extends Controller
             $id->update($req->except("tag_ids"));
         }
         if($req->has("tag_ids")) {
-            $tag = $id->tags()->create(['name' => $req->tag_ids]);
+            $tag = $id->tags()->firstOrCreate(['name' => $req->tag_ids],['name' => $req->tag_ids]);
             $id->tags()->sync($tag->id);
         }
         return redirect("/");
