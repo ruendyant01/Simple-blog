@@ -18,6 +18,9 @@ class Blog extends Model
             // var_dump($user);
             $blog->slug = Str::slug($blog->title);
         });
+        static::updating(function (Blog $blog) {
+            $blog->slug = Str::slug($blog->title);
+        });
     }
     use HasFactory;
 

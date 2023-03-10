@@ -31,7 +31,7 @@ Route::post("/", [BlogController::class, "store"])->name("blog.create");
 Route::resource("/tag", TagController::class);
 Route::get("/{id}", [BlogController::class, "show"]);
 Route::delete("/{id}", [BlogController::class, "destroy"]);
-Route::patch("/{id}", [BlogController::class, "update"]);
+Route::patch("/{id}", [BlogController::class, "update"])->name("blog.update");
 
 // Auth::routes();
 

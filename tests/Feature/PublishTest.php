@@ -31,7 +31,6 @@ class PublishTest extends TestCase
 
         $resp = $this->patch("/".$blog->slug, ["published_at" => null]);
 
-        // dd(Blog::latest()->first());
         $resp->assertStatus(302);
         $this->assertNull($blog->fresh()->published_at);
     }

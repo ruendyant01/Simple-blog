@@ -1,15 +1,4 @@
-{{-- {{$blog[0]->title}}
-{{$blog[1]->title}} --}}
-
 @extends('layouts.app');
-
-
-
-{{-- {{$blog}} --}}
-
-{{-- @foreach ($blog[1]->tags as $tag)
-    {{$tag->name}}
-@endforeach --}}
 
 @section('content')
 <div class="container">
@@ -23,7 +12,7 @@
                         <div>
                             <img src={{"/storage/".$blogs->image}} alt="" height="300">
                             <div>
-                                <h3>{{$blogs->title}}</h3>
+                                <a href={{"/".$blogs->slug}}><h3>{{$blogs->title}}</h3></a>
                                 <p>{{$blogs->published_at ?: ""}}</p>
                                 <p>{{$blogs->tags->pluck("name")->join(",")}}</p>
                             </div>

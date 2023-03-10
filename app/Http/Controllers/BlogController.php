@@ -7,6 +7,7 @@ use App\Models\Blog;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
@@ -23,7 +24,7 @@ class BlogController extends Controller
 
     public function show(Blog $id) {
         if(is_null($id->published_at)) return response("", Response::HTTP_NOT_FOUND);
-        return view("blog.show", ["show" => $id]);
+        return view("blog.show", ["blog" => $id]);
     }
 
     public function destroy(Blog $id) {
@@ -44,8 +45,17 @@ class BlogController extends Controller
     }
 
     public function update(Request $req, Blog $id) {
-        $id->update($req->except("tag_ids"));
-        $id->tags()->sync($req->tag_ids);
+        if($req->has('image')) {
+            $id->update(array_merge(['image' => $req->image->getCLientOriginalName()], $req->except("tag_ids", "image")));
+            Storage::disk("public")->delete($id->image);
+            $id->uploadImage($req->image);
+        } else {
+            $id->update($req->except("tag_ids"));
+        }
+        if($req->has("tag_ids")) {
+            $tag = $id->tags()->create(['name' => $req->tag_ids]);
+            $id->tags()->sync($tag->id);
+        }
         return redirect("/");
     }
 

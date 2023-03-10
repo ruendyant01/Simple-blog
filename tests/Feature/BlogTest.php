@@ -117,6 +117,6 @@ class BlogTest extends TestCase
         $resp->assertOk();
         $resp->assertSee("Edit Blog");
         $resp->assertSee($blog->title);
-        $resp->assertSee($blog->user->id);
+        $resp->assertSee($blog->user->name);
     }
 }
