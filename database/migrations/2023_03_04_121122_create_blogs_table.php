@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text("body");
             $table->unsignedBigInteger("user_id")->nullable();
             $table->text("image")->nullable();
-            $table->dateTime("published_at")->nullable();
+            $table->dateTime("published_at")->nullable()->default(null);
             $table->timestamps();
         });
     }

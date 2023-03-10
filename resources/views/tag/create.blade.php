@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Create New Tag</div>
+                <div class="card-header row">
+                    <h3 class="col">Create New Tag</h3>
+                    <a href={{route("tag.index")}} class="col btn btn-danger">Back</a>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('tag.store')}}" enctype="multipart/form-data">

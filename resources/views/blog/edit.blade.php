@@ -74,6 +74,20 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label for="published_at" class="col-md-4 col-form-label text-md-end">Publish</label>
+
+                            <div class="col-md-6">
+                                <input type="datetime-local" value="{{$blog->published_at}}" id="published_at" class="form-control @error('published_at') is-invalid @enderror" name="published_at" autocomplete="published_at">
+
+                                @error('published_at')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

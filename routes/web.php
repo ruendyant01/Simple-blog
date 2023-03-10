@@ -24,15 +24,11 @@ Route::view("/login", "auth.login")->name("login");
 Route::view("/register", "auth.register")->name("register");
 
 Route::post("/logout", [LoginController::class,"logout"])->name("logout");
-Route::get("/create", [BlogController::class, "create"]);
+Route::get("/create", [BlogController::class, "create"])->name("blog.create.form");
 Route::get("/{blog}/edit", [BlogController::class, "edit"]);
 Route::post("/", [BlogController::class, "store"])->name("blog.create");
 
 Route::resource("/tag", TagController::class)->except("show");
 Route::get("/{id}", [BlogController::class, "show"]);
-Route::delete("/{id}", [BlogController::class, "destroy"]);
+Route::delete("/{id}", [BlogController::class, "destroy"])->name("blog.destroy");
 Route::patch("/{id}", [BlogController::class, "update"])->name("blog.update");
-
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

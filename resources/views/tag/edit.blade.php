@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Edit Blog</div>
+                <div class="card-header row">
+                    <h3 class="col">Edit Blog</h3>
+                    <a href={{route("tag.index")}} class="col btn btn-danger">Back</a>
+                </div>
 
                 <div class="card-body">
                     <h3>{{$tag->name}}</h3>

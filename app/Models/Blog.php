@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,6 @@ class Blog extends Model
     protected static function booted(): void
     {
         static::creating(function (Blog $blog) {
-            // var_dump($user);
             $blog->slug = Str::slug($blog->title);
         });
         static::updating(function (Blog $blog) {
@@ -24,7 +24,6 @@ class Blog extends Model
     }
     use HasFactory;
 
-    // protected $fillable = ["title", "body"];
     protected $guarded = [];
 
     public function scopePublished(Builder $query) : void {
@@ -33,6 +32,10 @@ class Blog extends Model
 
     public function uploadImage($image) {
         Storage::disk("public")->put($image->getClientOriginalName(), $image->get());
+    }
+
+    public function deleteImage($image) {
+        Storage::disk("public")->delete($image);
     }
 
     public function user() {
@@ -46,5 +49,11 @@ class Blog extends Model
 
     public function tags() {
         return $this->belongsToMany(Tag::class);
+    }
+
+    protected function publishedAt() : Attribute {
+        return Attribute::make(
+            get: fn($val) => is_null($val) ? null : Carbon::parse($val)->format("Y-m-d\TH:m:s")
+        );
     }
 }

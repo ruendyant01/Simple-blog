@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Blog;
 use App\Models\Tag;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -56,7 +57,10 @@ class BlogTest extends TestCase
     }
 
     public function test_user_delete_blog() {
-        $blog = $this->createBlog();
+        Storage::fake();
+        $image = UploadedFile::fake()->image("photo2.jpg");
+        $blog = $this->createBlog(["image" => $image->name]);
+        $blog->uploadImage($image);
         $tag = $this->createTag();
         $blog->tags()->attach($tag->id);
 
@@ -64,9 +68,9 @@ class BlogTest extends TestCase
 
         $resp->assertStatus(302);
         $resp->assertRedirect("/");
-        $this->assertDatabaseMissing("tags", ["name" => $tag->name]);
         $this->assertDatabaseMissing("blog_tag", ['tag_id' => $tag->id, "blog_id" => $blog->id]);
         $this->assertDatabaseMissing("blogs", ["title" => $blog->title, "body" => $blog->body, "user_id" => $blog->user_id]);
+        Storage::disk("public")->assertMissing("photo2.jpg");
     }
 
     public function test_user_create_blog() {

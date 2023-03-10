@@ -26,10 +26,10 @@ class PublishTest extends TestCase
     }
 
     public function test_can_unpublish_blog() {
-        $user = $this->fakeAuthUser();
-        $blog = $this->createBlog(["published_at" => now()]);
+        $this->fakeAuthUser();
+        $blog = $this->createBlog(["published_at" => "2020-2-7"]);
 
-        $resp = $this->patch("/".$blog->slug, ["published_at" => null]);
+        $resp = $this->patch("/".$blog->slug, ['published_at' => null]);
 
         $resp->assertStatus(302);
         $this->assertNull($blog->fresh()->published_at);

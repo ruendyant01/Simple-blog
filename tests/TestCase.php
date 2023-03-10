@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Storage;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -15,6 +16,7 @@ abstract class TestCase extends BaseTestCase
     public function setup() : void {
         parent::setUp();
         $this->withoutExceptionHandling();
+        Storage::fake("public");
      }
 
      protected function createBlog($data = [], $num = null) {

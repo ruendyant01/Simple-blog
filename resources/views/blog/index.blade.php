@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">My Blogs</div>
+                <div class="card-header row">
+                    <h3 class="col">My Blogs</h3>
+                    <a href={{route("blog.create.form")}} class="col btn btn-success">Create</a>
+                </div>
 
                 <div class="card-body">
                     @forelse ($blog as $blogs)

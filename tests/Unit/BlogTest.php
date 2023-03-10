@@ -32,4 +32,14 @@ class BlogTest extends TestCase
 
         $this->assertInstanceOf(User::class, $blog->user);
     }
+
+    public function test_while_deleting_blog_image_should_get_deleted() {
+        $blog = new Blog();
+        $image = UploadedFile::fake()->image("photo10.jpg");
+
+        $blog->uploadImage($image);
+        $blog->deleteImage($image->name);
+
+        Storage::disk("public")->assertMissing($image->name);
+    }
 }
