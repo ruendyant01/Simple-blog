@@ -28,7 +28,7 @@ Route::get("/create", [BlogController::class, "create"]);
 Route::get("/{blog}/edit", [BlogController::class, "edit"]);
 Route::post("/", [BlogController::class, "store"])->name("blog.create");
 
-Route::resource("/tag", TagController::class);
+Route::resource("/tag", TagController::class)->except("show");
 Route::get("/{id}", [BlogController::class, "show"]);
 Route::delete("/{id}", [BlogController::class, "destroy"]);
 Route::patch("/{id}", [BlogController::class, "update"])->name("blog.update");

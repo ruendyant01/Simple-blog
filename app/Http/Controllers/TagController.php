@@ -12,11 +12,16 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct() {
+        $this->middleware("auth");
+     }
+
     public function index()
     {
         //
-        $tag = Tag::all();
-        return response($tag);
+        $tags = Tag::all();
+        return view("tag.index", compact("tags"));
     }
 
     /**
@@ -39,20 +44,8 @@ class TagController extends Controller
     public function store(Request $request)
     {
         //
-        $tag = Tag::create($request->all());
+        Tag::create($request->all());
         return redirect(route("tag.index"));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tag $tag)
-    {
-        //
-        
     }
 
     /**
@@ -74,9 +67,11 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tag $tag)
     {
         //
+        $tag->update($request->all());
+        return redirect(route("tag.index"));
     }
 
     /**
