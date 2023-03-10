@@ -34,13 +34,18 @@ class BlogController extends Controller
         return redirect("/");
     }
 
+    public function create() {
+        $tags = Tag::all();
+        return view("blog.create", compact("tags"));
+    }
+
     public function store(BlogRequest $req) 
     {
         extract($req->all());
         $blog = auth()->user()->blogs()->create(["title" => $title, "body" => $body, "image" => $image->getClientOriginalName()]);
         if(isset($image)) $blog->uploadImage($image);
-        $tag = Tag::firstOrCreate(["name" => $tag_ids],["name" => $tag_ids]);
-        $blog->tags()->attach($tag->id);
+        // $tag = Tag::firstOrCreate(["name" => $tag_ids],["name" => $tag_ids]);
+        $blog->tags()->attach(array_map(fn($val) => +$val, $tag_ids));
         return redirect(route("home"));
     }
 
@@ -53,13 +58,13 @@ class BlogController extends Controller
             $id->update($req->except("tag_ids"));
         }
         if($req->has("tag_ids")) {
-            $tag = $id->tags()->firstOrCreate(['name' => $req->tag_ids],['name' => $req->tag_ids]);
-            $id->tags()->sync($tag->id);
+            $id->tags()->sync($req->tag_ids);
         }
         return redirect("/");
     }
 
     public function edit(Blog $blog) {
-        return view("blog.edit", compact("blog"));
+        $tags = Tag::all();
+        return view("blog.edit", compact("blog", "tags"));
     }
 }

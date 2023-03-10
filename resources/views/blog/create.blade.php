@@ -43,7 +43,11 @@
                             <label for="tag" class="col-md-4 col-form-label text-md-end">Tags</label>
 
                             <div class="col-md-6">
-                                <input type="text" id="tag" class="form-control @error('tag_ids') is-invalid @enderror" name="tag_ids" autocomplete="tag">
+                                <select name="tag_ids[]" id="tag" multiple class="form-control multiple">
+                                    @foreach ($tags as $tag)
+                                        <option value={{$tag->id}}>{{$tag->name}}</option>
+                                    @endforeach
+                                </select>
 
                                 @error('tag_ids')
                                     <span class="invalid-feedback" role="alert">

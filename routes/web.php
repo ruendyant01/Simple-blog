@@ -24,7 +24,7 @@ Route::view("/login", "auth.login")->name("login");
 Route::view("/register", "auth.register")->name("register");
 
 Route::post("/logout", [LoginController::class,"logout"])->name("logout");
-Route::view("/create", "blog.create");
+Route::get("/create", [BlogController::class, "create"]);
 Route::get("/{blog}/edit", [BlogController::class, "edit"]);
 Route::post("/", [BlogController::class, "store"])->name("blog.create");
 
